@@ -13,8 +13,7 @@ app.set("view engine", "ejs");
 app.engine("html", require("ejs").renderFile);
 
 mongoose.connect(
-  "mongodb+srv://venweb5:venweb5@cluster0.xttdc.mongodb.net/Cluster0?retryWrites=true&w=majority"
-  ,
+  "mongodb+srv://venweb5:venweb5@cluster0.xttdc.mongodb.net/Cluster0?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
@@ -113,4 +112,4 @@ app.post("/action", authentication, async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('포트 3000번에서 대기중'));
+app.listen(3000, () => console.log('listening on port: 3000'));

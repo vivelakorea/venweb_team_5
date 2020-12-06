@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Player = mongoose.model("Player", {
+const schema = new Schema({
   name: String,
   key: String,
 
@@ -15,11 +15,12 @@ const Player = mongoose.model("Player", {
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 }
 });
+schema.methods.incrementHP = function (val) {
+  const hp = this.HP + val;
+  this.HP = Math.min(Math.max(0, hp), this.maxHP);
+};
 
-// Player.methods.incrementHP = function (val) {
-//   const hp = this.hp + val;
-//   this.HP = Math.min(Math.max(0, hp), this.maxHP);
-// };
+const Player = mongoose.model("Player", schema);
 
 module.exports = {
   Player

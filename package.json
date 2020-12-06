@@ -1,5 +1,5 @@
 {
-  "name": "http-server",
+  "name": "node-http-server",
   "version": "1.0.0",
   "description": "Node.js example server starter project",
   "main": "src/index.js",
@@ -8,22 +8,12 @@
   },
   "dependencies": {
     "ejs": "3.1.5",
-    "express": "^4.17.1",
-    "express-validator": "^6.7.0",
-    "mongoose": "^5.11.1"
+    "express": "4.17.1",
+    "express-validator": "6.7.0",
+    "mongoose": "5.11.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "1.18.4"
   },
-  "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vivelakorea/venweb_team_5.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vivelakorea/venweb_team_5/issues"
-  },
-  "homepage": "https://github.com/vivelakorea/venweb_team_5#readme"
+  "keywords": []
 }
