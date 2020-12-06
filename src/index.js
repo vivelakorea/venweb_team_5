@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const { body, validationResult } = require('express-validator');
 
 const { constantManager, mapManager } = require("./datas/Manager");
 const { Player } = require("./models/Player");
@@ -37,7 +38,16 @@ app.get("/game", (req, res) => {
   res.render("game");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", [
+  body('name').isLength({ min: 4, max: 12 }),
+], async (req, res) => {
+
+  const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.error(errors);
+        res.status(400).send(errors);
+      }
+
   const { name } = req.body;
 
   if (await Player.exists({ name })) {
