@@ -58,7 +58,8 @@ app.post('/signup', [
   const player = new Player({
     name,
     maxHP: 10,
-    HP: 10,
+    // HP: 10,
+    HP: 2,
     str: 5,
     def: 5,
     x: 0,
@@ -115,7 +116,7 @@ app.post('/action', authentication, async (req, res) => {
         // 배틀들 중 랜덤한 배틀 발생
         const random = Math.floor(Math.random() * battles.length);
         const battle = battles[random];
-        const monster = monsters[random];
+        const monster = monsters[random]; // 얘도 battles.length로 처리해도 되나요?
 
         const monsterOrinigalHP = monster.hp; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
 
@@ -124,8 +125,15 @@ app.post('/action', authentication, async (req, res) => {
         let turn = 'player';
         while (true) {
           if (player.HP <= 0) {
-            event.description += ' -> 죽었다.'; // TODO: 0,0 으로 보내기
+            event.description += ' -> 죽었다. 평원의 시작점에서 부활'; // TODO: 0,0 으로 보내기
+            await player.save();
+            res.send({player, field, event});
+            player.x = 0;
+            player.y = 0;
+            player.HP = 10;
+            await player.save();
             break;
+
           } else if (monster.hp <= 0) {
             event.description += ' -> 죽였다.';
             monster.hp = monsterOrinigalHP;
