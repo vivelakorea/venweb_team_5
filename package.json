@@ -10,7 +10,8 @@
     "ejs": "3.1.5",
     "express": "4.17.1",
     "express-validator": "^6.7.0",
-    "mongoose": "5.11.1"
+    "mongoose": "5.11.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "eslint": "^7.15.0",

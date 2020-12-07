@@ -2,12 +2,14 @@ const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const morgan = require('morgan');
 const {body, validationResult} = require('express-validator');
 
 const {constantManager, mapManager, eventManager, monsterManager} = require('./datas/Manager');
 const {Player} = require('./models/Player');
 
 const app = express();
+app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
