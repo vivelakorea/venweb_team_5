@@ -9,19 +9,19 @@ const mapList = [
   {type: itemPoint, probability: 0.3},
   {type: emptyPoint, probability: 0.4},
   ];
-const itemList = [
+const itemList = [ // type이 item의 id에 해당
   {type: 1, probability: 0.2},
   {type: 2, probability: 0.2},
-  {type: 3, probability: 0.2},
-  {type: 4, probability: 0.2},
-  {type: 5, probability: 0.2},
+  {type: 1000, probability: 0.2},
+  {type: 1001, probability: 0.2},
+  {type: 1002, probability: 0.2},
   ]
-const monsterList = [
+const monsterList = [ // type이 monster의 id에 해당
   {type: 1, probability: 0.3},
-  {type: 2, probability: 0.3},
-  {type: 3, probability: 0.2},
-  {type: 4, probability: 0.15},
-  {type: 5, probability: 0.05},
+  {type: 2, probability: 0.1},
+  {type: 3, probability: 0.1},
+  {type: 4, probability: 0.2},
+  {type: 5, probability: 0.3},
   ]  
 
 const randomizer = (choiceList) => {
