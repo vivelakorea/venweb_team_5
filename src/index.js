@@ -113,11 +113,10 @@ app.post('/action', authentication, async (req, res) => {
         const monsters = monsterManager.monsters;
 
 
-        // 배틀들 중 랜덤한 배틀 발생
-        const random = Math.floor(Math.random() * battles.length);
-        const battle = battles[random];
-        const monster = monsters[random]; // 얘도 battles.length로 처리해도 되나요?
-
+        const num = field.events[0].monster;
+        const battle = battles[num];
+        const monster = monsters[num]; // 얘도 battles.length로 처리해도 되나요? -> 애초에 랜덤하게 만드는게 아니었네유;
+        console.log(num, monster);
         const monsterOrinigalHP = monster.hp; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
 
 
@@ -133,10 +132,9 @@ app.post('/action', authentication, async (req, res) => {
             player.HP = 10;
             await player.save();
             break;
-
           } else if (monster.hp <= 0) {
             event.description += ' -> 죽였다.';
-            monster.hp = monsterOrinigalHP;
+            monster.hp = monsterOrinigalHP; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
             break;
           } else {
             // 데미지는 한번에 1씩만 넣는걸로
