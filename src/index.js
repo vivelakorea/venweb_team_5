@@ -103,8 +103,8 @@ app.post("/action", authentication, async (req, res) => {
     const events = field.events;
 
     if (events.length > 0) {
-      // TODO : 확률별로 이벤트 발생하도록 변경
-      const _event = events[0];
+      const battleProbability = events[0].percent / 100;
+      const _event = Math.random() < battleProbability ? events[0] : events[1];
       if (_event.type === "battle") {
         // TODO: 이벤트 별로 events.json 에서 불러와 이벤트 처리
 
