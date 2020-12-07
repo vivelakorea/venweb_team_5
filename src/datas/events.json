@@ -10,7 +10,7 @@
       "type": "battle",
       "id": 2,
       "monster": "호랑이",
-      "description": "호랑이 마주쳐 전투를 벌였다"
+      "description": "호랑이와 마주쳐 전투를 벌였다"
     },
     {
       "type": "battle",
