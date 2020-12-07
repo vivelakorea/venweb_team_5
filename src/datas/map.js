@@ -8,42 +8,42 @@ const mapList = [
   {type: monsterPoint, probability: 0.3},
   {type: itemPoint, probability: 0.3},
   {type: emptyPoint, probability: 0.4},
-  ];
+];
 const itemList = [ // type이 item의 id에 해당
   {type: 1, probability: 0.2},
   {type: 2, probability: 0.2},
   {type: 1000, probability: 0.2},
   {type: 1001, probability: 0.2},
   {type: 1002, probability: 0.2},
-  ]
+];
 const monsterList = [ // type이 monster의 id에 해당
   {type: 1, probability: 0.3},
   {type: 2, probability: 0.1},
   {type: 3, probability: 0.1},
   {type: 4, probability: 0.2},
   {type: 5, probability: 0.3},
-  ]  
+];
 
 const randomizer = (choiceList) => {
-    const randomNr = Math.random();
-    let picked;
-    let threshold = 0;
-  
-    for (let i=0; i<choiceList.length; i++) {
-      if (choiceList[i].probability === '*') {
-        continue;
-      }
-      threshold += choiceList[i].probability;
-      if (threshold > randomNr) {
-        picked = choiceList[i].type;
-        break;
-      }
-      if (!picked) {
-        picked = choiceList.filter((type) => type.probability === '*');
-      }
+  const randomNr = Math.random();
+  let picked;
+  let threshold = 0;
+
+  for (let i=0; i<choiceList.length; i++) {
+    if (choiceList[i].probability === '*') {
+      continue;
     }
-  
-    return picked;
+    threshold += choiceList[i].probability;
+    if (threshold > randomNr) {
+      picked = choiceList[i].type;
+      break;
+    }
+    if (!picked) {
+      picked = choiceList.filter((type) => type.probability === '*');
+    }
+  }
+
+  return picked;
 };
 
 
@@ -76,8 +76,8 @@ for (let j=0; j<10; j++) {
       }
     }
     const partialMap = randomizer(mapList);
-    const selectedItem = randomizer(itemList)
-    const selectedMonster = randomizer(monsterList)
+    const selectedItem = randomizer(itemList);
+    const selectedMonster = randomizer(monsterList);
     if (i===0&&j===0) {
       map.push(
           [
