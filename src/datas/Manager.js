@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 const fs = require('fs');
 
 class Manager {
@@ -20,6 +21,13 @@ class EventManager extends Manager {
 }
 
 class MonsterManager extends Manager {
+  constructor(datas) {
+    super();
+    this.monsters = datas;
+  }
+}
+
+class ItemManager extends Manager {
   constructor(datas) {
     super();
     this.monsters = datas;
@@ -63,9 +71,14 @@ const monsterManager = new MonsterManager(
     JSON.parse(fs.readFileSync(__dirname + '/monsters.json')),
 );
 
+const itemManager = new ItemManager(
+    JSON.parse(fs.readFileSync(__dirname + '/items.json')),
+);
+
 module.exports = {
   constantManager,
   mapManager,
   eventManager,
   monsterManager,
+  itemManager,
 };
