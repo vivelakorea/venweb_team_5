@@ -9,27 +9,41 @@ const mapList = [
   {type: itemPoint, probability: 0.3},
   {type: emptyPoint, probability: 0.4},
   ];
+const itemList = [
+  {type: 1, probability: 0.2},
+  {type: 2, probability: 0.2},
+  {type: 3, probability: 0.2},
+  {type: 4, probability: 0.2},
+  {type: 5, probability: 0.2},
+  ]
+const monsterList = [
+  {type: 1, probability: 0.3},
+  {type: 2, probability: 0.3},
+  {type: 3, probability: 0.2},
+  {type: 4, probability: 0.15},
+  {type: 5, probability: 0.05},
+  ]  
 
-const randomizer = (mapList) => {
+const randomizer = (choiceList) => {
     const randomNr = Math.random();
-    let pickedMap;
+    let picked;
     let threshold = 0;
   
-    for (let i=0; i<mapList.length; i++) {
-      if (mapList[i].probability === '*') {
+    for (let i=0; i<choiceList.length; i++) {
+      if (choiceList[i].probability === '*') {
         continue;
       }
-      threshold += mapList[i].probability;
+      threshold += choiceList[i].probability;
       if (threshold > randomNr) {
-        pickedMap = mapList[i].type;
+        picked = choiceList[i].type;
         break;
       }
-      if (!pickedMap) {
-        pickedMap = mapList.filter((type) => type.probability === '*');
+      if (!picked) {
+        picked = choiceList.filter((type) => type.probability === '*');
       }
     }
   
-    return pickedMap;
+    return picked;
 };
 
 
@@ -62,6 +76,8 @@ for (let j=0; j<10; j++) {
       }
     }
     const partialMap = randomizer(mapList);
+    const selectedItem = randomizer(itemList)
+    const selectedMonster = randomizer(monsterList)
     if (i===0&&j===0) {
       map.push(
           [
@@ -81,8 +97,8 @@ for (let j=0; j<10; j++) {
             partialMap,
             feasiblePoint,
             [
-              { "type": "battle", "monster": 1, "percent": 70},
-              { "type": "item", "item": 1, "percent": 30},
+              { "type": "battle", "monster": selectedMonster, "percent": 70},
+              { "type": "item", "item": selectedItem, "percent": 30},
             ],
           ]);
       continue;
@@ -94,8 +110,8 @@ for (let j=0; j<10; j++) {
             partialMap,
             feasiblePoint,
             [
-              { "type": "battle", "monster": 1, "percent": 30},
-              { "type": "item", "item": 1, "percent": 70},
+              { "type": "battle", "monster": selectedMonster, "percent": 30},
+              { "type": "item", "item": selectedItem, "percent": 70},
             ],
           ]);
       continue;
