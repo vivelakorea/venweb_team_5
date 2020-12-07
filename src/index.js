@@ -110,7 +110,7 @@ app.post('/action', authentication, async (req, res) => {
         const battles = eventManager.battleEvents;
         const monsters = monsterManager.monsters;
         // 배틀들 중 랜덤한 배틀 발생
-        const random = Math.floor(Math.random() * (battles.length + 1));
+        const random = Math.floor(Math.random() * battles.length);
         const battle = battles[random];
         const monster = monsters[random];
         event = {description: battle.description};
