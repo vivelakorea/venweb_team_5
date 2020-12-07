@@ -113,8 +113,6 @@ for (let j=0; j<10; j++) {
   }
 }
 
-// console.log(map);
-
 const mapJson = {
   id: 1,
   fields: map,
