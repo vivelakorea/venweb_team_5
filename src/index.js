@@ -106,15 +106,19 @@ app.post('/action', authentication, async (req, res) => {
       const _event = Math.random() < battleProbability ? events[0] : events[1];
       if (_event.type === 'battle') {
         // TODO: 이벤트 별로 events.json 에서 불러와 이벤트 처리 -> ???
-
         const battles = eventManager.battleEvents;
         const monsters = monsterManager.monsters;
+
+
         // 배틀들 중 랜덤한 배틀 발생
         const random = Math.floor(Math.random() * battles.length);
         const battle = battles[random];
         const monster = monsters[random];
-        event = {description: battle.description};
 
+        const monsterOrinigalHP = mosnter.hp; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
+
+
+        event = {description: battle.description};
         let turn = 'player';
         while (true) {
           if (player.HP <= 0) {
@@ -122,6 +126,7 @@ app.post('/action', authentication, async (req, res) => {
             break;
           } else if (monster.hp <= 0) {
             event.description += ' -> 죽였다.';
+            monster.hp = monsterOrinigalHP;
             break;
           } else {
             // 데미지는 한번에 1씩만 넣는걸로
@@ -135,7 +140,7 @@ app.post('/action', authentication, async (req, res) => {
               } else {
                 event.description += ` -> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
               }
-              console.log(monster.hp, player.HP);
+
               turn = 'monster';
             } else if (turn === 'monster') {
               const attackProbability = monster.str / player.def;
@@ -145,7 +150,7 @@ app.post('/action', authentication, async (req, res) => {
               } else {
                 event.description += ` -> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
               }
-              console.log(monster.hp, player.HP);
+
               turn = 'player';
             }
           }
