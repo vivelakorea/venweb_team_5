@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 class Manager {
   constructor() {}
@@ -8,6 +8,21 @@ class ConstantManager extends Manager {
   constructor(datas) {
     super();
     this.gameName = datas.gameName;
+  }
+}
+
+class EventManager extends Manager {
+  constructor(datas) {
+    super();
+    this.battleEvents = datas[0];
+    this.itemEvents = datas[1];
+  }
+}
+
+class MonsterManager extends Manager {
+  constructor(datas) {
+    super();
+    this.monsters = datas;
   }
 }
 
@@ -23,7 +38,7 @@ class MapManager extends Manager {
         y: field[1],
         description: field[2],
         canGo: field[3],
-        events: field[4]
+        events: field[4],
       };
     });
   }
@@ -33,14 +48,24 @@ class MapManager extends Manager {
   }
 }
 const constantManager = new ConstantManager(
-  JSON.parse(fs.readFileSync(__dirname + "/constants.json"))
+    JSON.parse(fs.readFileSync(__dirname + '/constants.json')),
 );
 
 const mapManager = new MapManager(
-  JSON.parse(fs.readFileSync(__dirname + "/map.json"))
+    JSON.parse(fs.readFileSync(__dirname + '/map.json')),
+);
+
+const eventManager = new EventManager(
+    JSON.parse(fs.readFileSync(__dirname + '/events.json')),
+);
+
+const monsterManager = new MonsterManager(
+    JSON.parse(fs.readFileSync(__dirname + '/monsters.json')),
 );
 
 module.exports = {
   constantManager,
-  mapManager
+  mapManager,
+  eventManager,
+  monsterManager,
 };

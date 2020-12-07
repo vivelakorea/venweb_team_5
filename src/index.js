@@ -1,57 +1,56 @@
-const express = require("express");
-const fs = require("fs");
-const mongoose = require("mongoose");
-const crypto = require("crypto");
-const { body, validationResult } = require('express-validator');
+const express = require('express');
+const fs = require('fs');
+const mongoose = require('mongoose');
+const crypto = require('crypto');
+const {body, validationResult} = require('express-validator');
 
-const { constantManager, mapManager } = require("./datas/Manager");
-const { Player } = require("./models/Player");
+const {constantManager, mapManager, eventManager, monsterManager} = require('./datas/Manager');
+const {Player} = require('./models/Player');
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
-app.engine("html", require("ejs").renderFile);
+app.use(express.urlencoded({extended: true}));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 
 mongoose.connect(
-  "mongodb+srv://venweb5:venweb5@cluster0.xttdc.mongodb.net/Cluster0?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true }
+    'mongodb+srv://venweb5:venweb5@cluster0.xttdc.mongodb.net/Cluster0?retryWrites=true&w=majority',
+    {useNewUrlParser: true, useUnifiedTopology: true},
 );
 
 const authentication = async (req, res, next) => {
-  const { authorization } = req.headers;
+  const {authorization} = req.headers;
   if (!authorization) return res.sendStatus(401);
-  const [bearer, key] = authorization.split(" ");
-  if (bearer !== "Bearer") return res.sendStatus(401);
-  const player = await Player.findOne({ key });
+  const [bearer, key] = authorization.split(' ');
+  if (bearer !== 'Bearer') return res.sendStatus(401);
+  const player = await Player.findOne({key});
   if (!player) return res.sendStatus(401);
 
   req.player = player;
   next();
 };
 
-app.get("/", (req, res) => {
-  res.render("index", { gameName: constantManager.gameName });
+app.get('/', (req, res) => {
+  res.render('index', {gameName: constantManager.gameName});
 });
 
-app.get("/game", (req, res) => {
-  res.render("game");
+app.get('/game', (req, res) => {
+  res.render('game');
 });
 
-app.post("/signup", [
-  body('name').isLength({ min: 4, max: 12 }),
+app.post('/signup', [
+  body('name').isLength({min: 4, max: 12}),
 ], async (req, res) => {
-
   const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        console.error(errors);
-        res.status(400).send(errors);
-      }
+  if (!errors.isEmpty()) {
+    console.error(errors);
+    res.status(400).send(errors);
+  }
 
-  const { name } = req.body;
+  const {name} = req.body;
 
-  if (await Player.exists({ name })) {
-    return res.status(400).send({ error: "Player already exists" });
+  if (await Player.exists({name})) {
+    return res.status(400).send({error: 'Player already exists'});
   }
 
   const player = new Player({
@@ -61,26 +60,26 @@ app.post("/signup", [
     str: 5,
     def: 5,
     x: 0,
-    y: 0
+    y: 0,
   });
 
-  const key = crypto.randomBytes(24).toString("hex");
+  const key = crypto.randomBytes(24).toString('hex');
   player.key = key;
 
   await player.save();
 
-  return res.send({ key });
+  return res.send({key});
 });
 
-app.post("/action", authentication, async (req, res) => {
-  const { action } = req.body;
+app.post('/action', authentication, async (req, res) => {
+  const {action} = req.body;
   const player = req.player;
   let event = null;
-  if (action === "query") {
+  if (action === 'query') {
     const field = mapManager.getField(req.player.x, req.player.y);
 
-    return res.send({ player, field });
-  } else if (action === "move") {
+    return res.send({player, field});
+  } else if (action === 'move') {
     const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
     let x = req.player.x;
     let y = req.player.y;
@@ -105,20 +104,57 @@ app.post("/action", authentication, async (req, res) => {
     if (events.length > 0) {
       const battleProbability = events[0].percent / 100;
       const _event = Math.random() < battleProbability ? events[0] : events[1];
-      if (_event.type === "battle") {
-        // TODO: 이벤트 별로 events.json 에서 불러와 이벤트 처리
+      if (_event.type === 'battle') {
+        // TODO: 이벤트 별로 events.json 에서 불러와 이벤트 처리 -> ???
 
-        event = { description: "늑대와 마주쳐 싸움을 벌였다." };
-        player.incrementHP(-1);
-      } else if (_event.type === "item") {
-        event = { description: "포션을 획득해 체력을 회복했다." };
-        player.incrementHP(1);
-        player.HP = Math.min(player.maxHP, player.HP + 1);
+        const battles = eventManager.battleEvents;
+        const monsters = monsterManager.monsters;
+        // 배틀들 중 랜덤한 배틀 발생
+        const random = Math.floor(Math.random() * (battles.length + 1));
+        const battle = battles[random];
+        const monster = monsters[random];
+        event = {description: battle.description};
+
+        let turn = 'player';
+        while (true) {
+          if (player.HP <= 0) {
+            event.description += ' -> 죽었다.'; // TODO: 0,0 으로 보내기
+            break;
+          } else if (monster.hp <= 0) {
+            event.description += ' -> 죽였다.';
+            break;
+          } else {
+            // 데미지는 한번에 1씩만 넣는걸로
+            // 공격하는측 str이 높을수록 확률 높아짐
+            // 공격당하는측 def가 높을수록 확률 낮아짐
+            if (turn === 'player') {
+              const attackProbability = player.str / monster.def;
+              if (Math.random() < attackProbability) {
+                monster.hp -= 1;
+                event.description += ` -> ${turn}가 공격에 성공, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+              } else {
+                event.description += ` -> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+              }
+              console.log(monster.hp, player.HP);
+              turn = 'monster';
+            } else if (turn === 'monster') {
+              const attackProbability = monster.str / player.def;
+              if (Math.random() < attackProbability) {
+                player.HP -= 1;
+                event.description += ` -> ${turn}가 공격에 성공, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+              } else {
+                event.description += ` -> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+              }
+              console.log(monster.hp, player.HP);
+              turn = 'player';
+            }
+          }
+        }
       }
     }
 
     await player.save();
-    return res.send({ player, field, event });
+    return res.send({player, field, event});
   }
 });
 

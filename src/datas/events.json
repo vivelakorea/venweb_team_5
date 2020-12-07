@@ -1,0 +1,61 @@
+[
+  [
+    {
+      "type": "battle",
+      "id": 1,
+      "monster": "늑대",
+      "description": "늑대와 마주쳐 전투를 벌였다"
+    },
+    {
+      "type": "battle",
+      "id": 2,
+      "monster": "호랑이",
+      "description": "호랑이 마주쳐 전투를 벌였다"
+    },
+    {
+      "type": "battle",
+      "id": 3,
+      "monster": "사자",
+      "description": "사자와 마주쳐 전투를 벌였다"
+    },
+    {
+      "type": "battle",
+      "id": 4,
+      "monster": "슬라임",
+      "description": "슬라임과 마주쳐 전투를 벌였다"
+    },
+    {
+      "type": "battle",
+      "id": 5,
+      "monster": "잉어킹",
+      "description": "오잉 잉어킹이다"
+    }
+  ],
+  [
+    {
+      "type": "item",
+      "item": "나무목도",
+      "description": "나무목도를 획득해 str이 1 증가했다"
+    },
+    {
+      "type": "item",
+      "item": "나무목검",
+      "description": "나무목검을 획득해 str이 2 증가했다"
+    },
+    {
+      "type": "item",
+      "item": "천갑옷",
+      "description": "천갑옷을 획득해 def가 1 증가했다"
+    },
+    {
+      "type": "item",
+      "item": "가죽갑옷",
+      "description": "천갑옷을 획득해 def가 2 증가했다"
+    },
+    {
+      "type": "item",
+      "item": "미스릴갑옷",
+      "description": "미스릴갑옷을 획득해 def가 10 증가했다"
+    }
+  ]
+]
