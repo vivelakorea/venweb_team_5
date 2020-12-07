@@ -115,7 +115,7 @@ app.post('/action', authentication, async (req, res) => {
         const battle = battles[random];
         const monster = monsters[random];
 
-        const monsterOrinigalHP = mosnter.hp; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
+        const monsterOrinigalHP = monster.hp; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
 
 
         event = {description: battle.description};
