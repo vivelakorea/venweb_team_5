@@ -23,7 +23,7 @@ class EventManager extends Manager {
 class MonsterManager extends Manager {
   constructor(datas) {
     super();
-    this.items = datas;
+    this.monsters = datas;
   }
 }
 
