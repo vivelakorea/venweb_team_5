@@ -131,6 +131,7 @@ app.post('/action', authentication, async (req, res) => {
               player.y = 0;
               player.HP = 10;
               await player.save();
+              monster.hp = monsterOrinigalHP; // 다시 같은 몬스터와 전투시 이미 hp가 깎여있는 문제 해결
               break;
             } else if (monster.hp <= 0) {
               event.description += ' -> 죽였다.';
