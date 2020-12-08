@@ -30,7 +30,7 @@ class MonsterManager extends Manager {
 class ItemManager extends Manager {
   constructor(datas) {
     super();
-    this.monsters = datas;
+    this.items = datas;
   }
 }
 

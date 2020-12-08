@@ -164,7 +164,7 @@ app.post('/action', authentication, async (req, res) => {
             }
           }
         } else if (_event.type === 'item') {
-          const items = itemManager.monsters;
+          const items = itemManager.items;
           const itemId = field.events[1].item;
           const item = findById(itemId, items);
           if (item.str) player.str += item.str;
