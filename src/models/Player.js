@@ -16,7 +16,7 @@ const schema = new Schema({
   x: {type: Number, default: 0},
   y: {type: Number, default: 0},
 
-  items:[String]
+  items: {type: [Number], default: []},
 });
 
 schema.methods.incrementHP = function(val) {
@@ -24,7 +24,7 @@ schema.methods.incrementHP = function(val) {
   this.HP = Math.min(Math.max(0, hp), this.maxHP);
 };
 
-schema.methods.death = function () {
+schema.methods.death = function() {
   this.hp = 0;
   this.exp = 0;
   this.x = 0;
@@ -35,16 +35,19 @@ schema.methods.incrementExp = function(val) {
   const exp = this.exp + val;
   if (exp >= this.maxExp) {
     this.level += parseInt(exp / this.maxExp);
-    this.exp = exp % this.maxExp
+    this.exp = exp % this.maxExp;
   } else {
-    this.exp = exp
+    this.exp = exp;
   }
 };
 
-schema.methods.getItem = function(itemId){
+schema.methods.getItem = function(itemId) {
   const itemList = this.items;
-  itemList.push(itemId);
-  this.items = itemList;
+  if (!itemList.includes(itemId)) {
+    itemList.push(itemId);
+    this.items = itemList;
+    return true; // 획득에 성공
+  } else return false; // 획득에 실패
 };
 
 const Player = mongoose.model('Player', schema);

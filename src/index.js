@@ -168,9 +168,15 @@ app.post('/action', authentication, async (req, res) => {
           const items = itemManager.items;
           const itemId = field.events[1].item;
           const item = findById(itemId, items);
-          if (item.str) player.str += item.str;
-          else if (item.def) player.def += item.def;
-          event = {description: `아이템 획득: ${item.name} / 플레이어 str: ${player.str}, def: ${player.def}`};
+          if (player.getItem(itemId)) {
+            console.log(player.items);
+            if (item.str) player.str += item.str;
+            else if (item.def) player.def += item.def;
+            event = {description: `아이템 획득: ${item.name} / 플레이어 str: ${player.str}, def: ${player.def} `};
+          } else {
+            console.log(player.items);
+            event = {description: `${item.name}을 발견했지만 이미 가지고 있는 아이템이었다.`};
+          }
         }
       }
 
