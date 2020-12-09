@@ -5,8 +5,8 @@ const schema = new Schema({
   name: String,
   key: String,
 
-  level: Number,
-  exp: Number,
+  level: {type: Number, default: 1},
+  exp: {type: Number, default: 0},
   maxExp: {type: Number, default: 100},
 
   maxHP: {type: Number, default: 10},
@@ -16,7 +16,7 @@ const schema = new Schema({
   x: {type: Number, default: 0},
   y: {type: Number, default: 0},
 
-  items: {type: [Number], default: []},
+  items: {type: [String], default: []},
 });
 
 schema.methods.incrementHP = function(val) {
@@ -41,10 +41,10 @@ schema.methods.incrementExp = function(val) {
   }
 };
 
-schema.methods.getItem = function(itemId) {
+schema.methods.getItem = function(item) {
   const itemList = this.items;
-  if (!itemList.includes(itemId)) {
-    itemList.push(itemId);
+  if (!itemList.includes(item)) {
+    itemList.push(item);
     this.items = itemList;
     return true; // 획득에 성공
   } else return false; // 획득에 실패

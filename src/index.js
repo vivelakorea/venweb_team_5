@@ -168,7 +168,7 @@ app.post('/action', authentication, async (req, res) => {
           const items = itemManager.items;
           const itemId = field.events[1].item;
           const item = findById(itemId, items);
-          if (player.getItem(itemId)) {
+          if (player.getItem(item.name)) {
             console.log(player.items);
             if (item.str) player.str += item.str;
             else if (item.def) player.def += item.def;
