@@ -36,6 +36,7 @@ schema.methods.incrementExp = function(val) {
   if (exp >= this.maxExp) {
     this.level += parseInt(exp / this.maxExp);
     this.exp = exp % this.maxExp;
+    this.maxExp += 10;
   } else {
     this.exp = exp;
   }

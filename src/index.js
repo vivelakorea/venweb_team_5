@@ -135,6 +135,7 @@ app.post('/action', authentication, async (req, res) => {
               break;
             } else if (monster.hp <= 0) {
               event.description += ' -> 죽였다.';
+              player.incrementExp(10*(monster.str + monster.def));
               monster.hp = monsterOrinigalHP; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
               break;
             } else {
