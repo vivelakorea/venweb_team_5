@@ -175,7 +175,7 @@ app.post('/action', authentication, async (req, res) => {
             event = {description: `아이템 획득: ${item.name} / 플레이어 str: ${player.str}, def: ${player.def} `};
           } else {
             console.log(player.items);
-            event = {description: `${item.name}을 발견했지만 이미 가지고 있는 아이템이었다.`};
+            event = {description: `${item.name}을(를) 발견했지만 이미 가지고 있는 아이템이었다.`};
           }
         }
       }
