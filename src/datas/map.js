@@ -97,8 +97,8 @@ for (let j=0; j<10; j++) {
             partialMap,
             feasiblePoint,
             [
-              { "type": "battle", "monster": selectedMonster, "percent": 70},
-              { "type": "item", "item": selectedItem, "percent": 30},
+              {'type': 'battle', 'monster': selectedMonster, 'percent': 70},
+              {'type': 'item', 'item': selectedItem, 'percent': 30},
             ],
           ]);
       continue;
@@ -110,8 +110,8 @@ for (let j=0; j<10; j++) {
             partialMap,
             feasiblePoint,
             [
-              { "type": "battle", "monster": selectedMonster, "percent": 30},
-              { "type": "item", "item": selectedItem, "percent": 70},
+              {'type': 'battle', 'monster': selectedMonster, 'percent': 30},
+              {'type': 'item', 'item': selectedItem, 'percent': 70},
             ],
           ]);
       continue;

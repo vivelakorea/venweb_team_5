@@ -1,80 +1,103 @@
 /* eslint-disable max-len */
 const express = require('express');
-const mongoose = require('mongoose');
 const crypto = require('crypto');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
 const {body, validationResult} = require('express-validator');
 
 const {constantManager, mapManager, eventManager, monsterManager, itemManager} = require('./datas/Manager');
 const {findById} = require('./utils');
 const {Player} = require('./models/Player');
+const connect = require('./connect');
+
+dotenv.config();
+connect();
 
 const app = express();
+
+app.set('port', process.env.PORT || 8000);
+
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
-mongoose.connect(
-    'mongodb+srv://venweb5:venweb5@cluster0.xttdc.mongodb.net/Cluster0?retryWrites=true&w=majority',
-    {useNewUrlParser: true, useUnifiedTopology: true},
-);
 
 const authentication = async (req, res, next) => {
-  const {authorization} = req.headers;
-  if (!authorization) return res.sendStatus(401);
-  const [bearer, key] = authorization.split(' ');
-  if (bearer !== 'Bearer') return res.sendStatus(401);
-  const player = await Player.findOne({key});
-  if (!player) return res.sendStatus(401);
+  try {
+    const {authorization} = req.headers;
+    if (!authorization) return res.sendStatus(401);
+    const [bearer, key] = authorization.split(' ');
+    if (bearer !== 'Bearer') return res.sendStatus(401);
+    const player = await Player.findOne({key});
+    if (!player) return res.sendStatus(401);
 
-  req.player = player;
-  next();
+    req.player = player;
+    next();
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 };
 
-app.get('/', (req, res) => {
-  res.render('index', {gameName: constantManager.gameName});
+app.get('/', (req, res, next) => {
+  try {
+    res.render('index', {gameName: constantManager.gameName});
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 });
 
-app.get('/game', (req, res) => {
-  res.render('game');
+app.get('/game', (req, res, next) => {
+  try {
+    res.render('game');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 app.post('/signup', [
   body('name').isLength({min: 4, max: 12}),
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    console.error(errors);
-    res.status(400).send(errors);
+], async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors);
+      res.status(400).send(errors);
+    }
+
+    const {name} = req.body;
+
+    if (await Player.exists({name})) {
+      return res.status(400).send({error: 'Player already exists'});
+    }
+
+    const player = new Player({
+      name,
+      maxHP: 10,
+      HP: 10,
+      str: 5,
+      def: 5,
+      x: 0,
+      y: 0,
+    });
+
+    const key = crypto.randomBytes(24).toString('hex');
+    player.key = key;
+
+    await player.save();
+
+    return res.send({key});
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
-
-  const {name} = req.body;
-
-  if (await Player.exists({name})) {
-    return res.status(400).send({error: 'Player already exists'});
-  }
-
-  const player = new Player({
-    name,
-    maxHP: 10,
-    HP: 10,
-    str: 5,
-    def: 5,
-    x: 0,
-    y: 0,
-  });
-
-  const key = crypto.randomBytes(24).toString('hex');
-  player.key = key;
-
-  await player.save();
-
-  return res.send({key});
 });
 
-app.post('/action', authentication, async (req, res) => {
+app.post('/action', authentication, async (req, res, next) => {
   try {
     const {action} = req.body;
     const player = req.player;
@@ -184,10 +207,20 @@ app.post('/action', authentication, async (req, res) => {
       await player.save();
       return res.send({player, field, event});
     }
-  } catch (error) {
+  } catch (err) {
     console.error(error);
-    res.send(error);
+    next(err);
   }
 });
 
-app.listen(3000, () => console.log('listening on port: 3000'));
+// 에러처리반
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const {message, status} = err;
+  // err에 status를 따로 안먹였으면 500
+  res.status(err.status || 500).send({
+    error: {message, status: status || 500},
+  });
+});
+
+app.listen(app.get('port'), () => console.log(`listening on port: ${app.get('port')}`));
