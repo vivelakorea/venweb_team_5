@@ -25,7 +25,7 @@ schema.methods.incrementHP = function(val) {
 };
 
 schema.methods.death = function() {
-  this.hp = 0;
+  this.HP = this.maxHP;
   this.exp = 0;
   this.x = 0;
   this.y = 0;
