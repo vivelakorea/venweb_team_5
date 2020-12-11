@@ -29,6 +29,10 @@ schema.methods.death = function() {
   this.exp = 0;
   this.x = 0;
   this.y = 0;
+
+  const itemsLength = this.items.length;
+  const randomItemNumber = Math.floor(Math.random() * itemsLength);
+  this.items.splice(randomItemNumber, 1);
 };
 
 schema.methods.incrementExp = function(val) {
