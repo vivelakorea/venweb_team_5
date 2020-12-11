@@ -28,6 +28,9 @@
       .red {
         background-color: red;
       }
+      .invisible {
+        display: none;
+      }
     </style>
   </head>
 
@@ -200,6 +203,7 @@
             $("#goto_zero").html(
               '<button onclick="(() => window.location.reload())()">평원으로!</button>'
             );
+            $("#control").addClass("invisible");
             $("#HP").text(`0 / ${player.maxHP}`);
           }
         });
