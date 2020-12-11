@@ -10,18 +10,18 @@ const mapList = [
   {type: emptyPoint, probability: 0.4},
 ];
 const itemList = [ // type이 item의 id에 해당
-  {type: 1, probability: 0.2},
-  {type: 2, probability: 0.2},
-  {type: 1000, probability: 0.2},
-  {type: 1001, probability: 0.2},
-  {type: 1002, probability: 0.2},
+  {type: 1, probability: 0.20},
+  {type: 2, probability: 0.20},
+  {type: 1000, probability: 0.40},
+  {type: 1001, probability: 0.17},
+  {type: 1002, probability: 0.03},
 ];
 const monsterList = [ // type이 monster의 id에 해당
-  {type: 1, probability: 0.3},
-  {type: 2, probability: 0.1},
-  {type: 3, probability: 0.1},
-  {type: 4, probability: 0.2},
-  {type: 5, probability: 0.3},
+  {type: 1, probability: 0.40},
+  {type: 2, probability: 0.15},
+  {type: 3, probability: 0.12},
+  {type: 4, probability: 0.25},
+  {type: 5, probability: 0.08},
 ];
 
 const randomizer = (choiceList) => {
@@ -47,21 +47,21 @@ const randomizer = (choiceList) => {
 };
 
 
-for (let j=0; j<10; j++) {
-  for (let i=0; i<10; i++) {
+for (let j=0; j<25; j++) {
+  for (let i=0; i<25; i++) {
     let feasiblePoint = [];
     if (j===0) {
       if (i===0) {
         feasiblePoint = [0, 1, 1, 0];
-      } else if (i>0&&i<9) {
+      } else if (i>0&&i<24) {
         feasiblePoint = [0, 1, 1, 1];
       } else {
         feasiblePoint = [0, 0, 1, 1];
       }
-    } else if (j>0&&j<9) {
+    } else if (j>0&&j<24) {
       if (i===0) {
         feasiblePoint = [1, 1, 1, 0];
-      } else if (i>0&&i<9) {
+      } else if (i>0&&i<24) {
         feasiblePoint = [1, 1, 1, 1];
       } else {
         feasiblePoint = [1, 0, 1, 1];
@@ -69,7 +69,7 @@ for (let j=0; j<10; j++) {
     } else {
       if (i===0) {
         feasiblePoint = [1, 1, 0, 0];
-      } else if (i>0&&i<9) {
+      } else if (i>0&&i<24) {
         feasiblePoint = [1, 1, 0, 1];
       } else {
         feasiblePoint = [1, 0, 0, 1];
