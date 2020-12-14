@@ -42,8 +42,8 @@ schema.methods.incrementExp = function(val) {
     this.exp = exp % this.maxExp;
     this.maxExp = Math.floor(1.2 * this.maxExp);
 
-    this.maxHP += this.level*10,
-    this.HP = this.maxHP;
+    this.maxHP += this.level*3,
+    this.HP += Math.floor(this.maxHP / 10);
     this.str += this.level * 5;
     this.def += this.level;
   } else {
