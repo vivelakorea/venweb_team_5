@@ -72,6 +72,7 @@ app.post('/signup', [
     const {name} = req.body;
 
     if (await Player.exists({name})) {
+      // console.log("이미 가입된 플레이어입니다.")
       return res.status(400).send({error: 'Player already exists'});
     }
 
@@ -101,6 +102,16 @@ app.post('/action', authentication, async (req, res, next) => {
   try {
     const {action} = req.body;
     const player = req.player;
+    // if(action === 'reroll') {
+    //   player.str = Math.floor(Math.random()*5);
+    //   player.def = Math.floor(Math.random()*5);
+    //   player.reroll -= 1;
+    //   if(player.reroll === 0) {
+    //     player.status = 1;
+    //   }
+    //   await player.save();
+    //   return res.send(player); 
+    // }
     let event = null;
     if (action === 'query') {
       const field = mapManager.getField(req.player.x, req.player.y);

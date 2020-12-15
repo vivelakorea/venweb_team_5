@@ -682,6 +682,7 @@
       <button value="2">남</button>
       <button value="0">북</button>
     </div>
+    <!-- <br /><div id="reroll"></div> -->
 
     <figure>
       <audio
@@ -706,6 +707,9 @@
           data: `action=${action}&direction=${params.direction}`,
         }).done((req) => {
           const { player, field, event } = req;
+
+          // player.status === 0 ? reroll.show() : reroll.hide();
+
           $("#game").html(field.description);
 
           $("#position").text(`(${field.x},${field.y})`);
@@ -746,6 +750,12 @@
           }
         });
       };
+
+      // const reroll = $('#reroll');
+      // reroll.bind('click',function () {
+      //   sendAction('reroll')
+      // });
+
       const key = localStorage.getItem("_key");
       if (!key) {
         location.href = "/";
