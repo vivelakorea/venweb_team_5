@@ -71,9 +71,10 @@ app.post('/signup', [
 
     const {name} = req.body;
 
-    if (await Player.exists({name})) {
-      // console.log("이미 가입된 플레이어입니다.")
-      return res.status(400).send({error: 'Player already exists'});
+    if (await Player.findOne/*exists*/({name})) {
+      console.log("Player already exists")
+      const message = "존재하는 아이디입니다."
+      return res./*status(400).*/send({message})/*{error: 'Player already exists'})*/;
     }
 
     const player = new Player({

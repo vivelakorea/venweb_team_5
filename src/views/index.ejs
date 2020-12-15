@@ -25,7 +25,8 @@
        e.preventDefault();
        const action = $(this).attr('action');
        $.post(action, $(this).serialize(),(res) => {
-         if(res.key) {
+         if(res.message) alert(res.message)
+         else if (res.key) {
           localStorage.setItem('_key', res.key);
           location.href = '/game';
          }
