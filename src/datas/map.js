@@ -1,7 +1,7 @@
 fs=require('fs');
 const map=[];
-const startingPoint = '평원의 시작점이다.';
-const monsterPoint = '왠지 몬스터가 나올 것 같은 그런 스산한 분위기가 느껴진다.';
+const startingPoint = '집이다.';
+const monsterPoint = '왠지 병에 걸릴 것 같은 그런 스산한 분위기가 느껴진다.';
 const itemPoint = '행운이 찾아올 것 같다.';
 const emptyPoint = '아무것도 없다';
 const mapList = [
