@@ -3,59 +3,59 @@
     {
       "type": "battle",
       "id": 1,
-      "monster": "잉어킹",
-      "description": "잉어킹과 마주쳐 전투를 벌였다"
+      "monster": "감기",
+      "description": "감기 바이러스와 면역체계가 싸우고 있다."
     },
     {
       "type": "battle",
       "id": 2,
-      "monster": "슬라임",
-      "description": "슬라임과 마주쳐 전투를 벌였다"
+      "monster": "메르스",
+      "description": "메르스 바이러스와 면역체계가 싸우고 있다."
     },
     {
       "type": "battle",
       "id": 3,
-      "monster": "구울",
-      "description": "구울과 마주쳐 전투를 벌였다"
+      "monster": "사스",
+      "description": "사스 바이러스와 면역체계가 싸우고 있다."
     },
     {
       "type": "battle",
       "id": 4,
-      "monster": "드래곤",
-      "description": "드래곤과 마주쳐 전투를 벌였다"
+      "monster": "신종플루",
+      "description": "신종플루 바이러스와 면역체계가 싸우고 있다."
     },
     {
       "type": "battle",
       "id": 5,
-      "monster": "갸라도스",
-      "description": "오잉 갸라도스다"
+      "monster": "코로나",
+      "description": "오잉 코로나바이러스다."
     }
   ],
   [
     {
       "type": "item",
-      "item": "나무목도",
-      "description": "나무목도를 획득해 str이 1 증가했다"
+      "item": "손세정제",
+      "description": "손세정제를 획득해 def가 1 증가했다"
     },
     {
       "type": "item",
-      "item": "나무목검",
-      "description": "나무목검을 획득해 str이 2 증가했다"
+      "item": "감기약",
+      "description": "감기약을 획득해 str이 2 증가했다"
     },
     {
       "type": "item",
-      "item": "천갑옷",
-      "description": "천갑옷을 획득해 def가 1 증가했다"
+      "item": "백신",
+      "description": "백신을 획득했다! str이 10 증가했다"
     },
     {
       "type": "item",
-      "item": "가죽갑옷",
-      "description": "천갑옷을 획득해 def가 2 증가했다"
+      "item": "마스크",
+      "description": "마스크를 획득해 def가 2 증가했다"
     },
     {
       "type": "item",
-      "item": "미스릴갑옷",
-      "description": "미스릴갑옷을 획득해 def가 10 증가했다"
+      "item": "방호복",
+      "description": "방호복을 획득해 def가 10 증가했다"
     }
   ]
 ]

@@ -160,13 +160,13 @@ app.post('/action', authentication, async (req, res, next) => {
           let turn = 'player';
           while (true) {
             if (player.HP <= 0) {
-              event.description += ' <br /><br /> 죽었다. 평원의 시작점에서 부활'; // TODO: 0,0 으로 보내기
+              event.description += ' <br /><br /> 죽었다. 집에서 부활'; // TODO: 0,0 으로 보내기
               player.death();
               event.death = true;
               monster.hp = monsterOrinigalHP; // 다시 같은 몬스터와 전투시 이미 hp가 깎여있는 문제 해결
               break;
             } else if (monster.hp <= 0) {
-              event.description += ' <br /><br /> 죽였다.';
+              event.description += ' <br /><br /> 바이러스를 죽였다.';
               player.incrementExp(10*(monster.str + monster.def));
               monster.hp = monsterOrinigalHP; // 다시 같은 몬스터와 전투시 이미 hp가 0인 문제 해결
               break;
@@ -178,9 +178,9 @@ app.post('/action', authentication, async (req, res, next) => {
                 const attackProbability = player.str / monster.def;
                 if (Math.random() < attackProbability) {
                   monster.hp -= 1;
-                  event.description += ` <br /><br /> ${turn}가 공격에 성공, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+                  event.description += ` <br /><br /> ${turn}가 공격에 성공, 플레이어 체력: ${player.HP} / 바이러스 체력: ${monster.hp}`;
                 } else {
-                  event.description += ` <br /><br /> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+                  event.description += ` <br /><br /> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 바이러스 체력: ${monster.hp}`;
                 }
 
                 turn = 'monster';
@@ -188,9 +188,9 @@ app.post('/action', authentication, async (req, res, next) => {
                 const attackProbability = monster.str / player.def;
                 if (Math.random() < attackProbability) {
                   player.HP -= 1;
-                  event.description += ` <br /><br />${turn}가 공격에 성공, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp}`;
+                  event.description += ` <br /><br />${turn}가 공격에 성공, 플레이어 체력: ${player.HP} / 바이러스 체력: ${monster.hp}`;
                 } else {
-                  event.description += ` <br /><br /> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 몬스터 체력: ${monster.hp} `;
+                  event.description += ` <br /><br /> ${turn}가 공격에 실패, 플레이어 체력: ${player.HP} / 바이러스 체력: ${monster.hp} `;
                 }
 
                 turn = 'player';
