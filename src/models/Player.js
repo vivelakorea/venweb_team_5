@@ -11,15 +11,10 @@ const schema = new Schema({
 
   maxHP: {type: Number, default: 10},
   HP: {type: Number, default: 10},
-
-  str: {type: Number, default: 5/*Math.floor(Math.random()*5)*/},
-  def: {type: Number, default: 5/*Math.floor(Math.random()*5)*/},
-  //reroll: {type: Number, default: 5},
-
+  str: {type: Number, default: 5},
+  def: {type: Number, default: 5},
   x: {type: Number, default: 0},
   y: {type: Number, default: 0},
-
-  //status: { type: Number, default: 0 }, // 0이 시작, 재설정 위해서
 
   items: {type: [String], default: []},
 });
