@@ -27,7 +27,7 @@
        $.post(action, $(this).serialize(),(res) => {
 
          if(res.message) {
-           alert(JSON.stringify(res));
+           alert(`에러: ${res.message}, 코드: ${res.status}`);
          }
          else if(res.key) {
           localStorage.setItem('_key', res.key);
