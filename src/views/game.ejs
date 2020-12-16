@@ -697,54 +697,58 @@
 
     <script>
       const sendAction = (action, params = {}) => {
-        $.ajax({
-          url: "/action",
-          headers: {
-            Authorization: "Bearer " + key,
-          },
-          method: "POST",
-          data: `action=${action}&direction=${params.direction}`,
-        }).done((req) => {
-          const { player, field, event } = req;
-          $("#game").html(field.description);
+        try {
+          $.ajax({
+            url: "/action",
+            headers: {
+              Authorization: "Bearer " + key,
+            },
+            method: "POST",
+            data: `action=${action}&direction=${params.direction}`,
+          }).done((req) => {
+            const { player, field, event } = req;
+            $("#game").html(field.description);
 
-          $("#position").text(`(${field.x},${field.y})`);
-          const x = field.x;
-          const y = field.y;
-          for (let i = 1; i <= 625; i++) {
-            $(`#box${i}`).removeClass("red");
-          }
-          $(`#box${25 * y + x + 1}`).addClass("red");
-          field.canGo.forEach((canGo, idx) => {
-            const dom = $(`button[value="${idx}"]`);
-            canGo === 0 ? dom.hide() : dom.show();
-            dom.unbind("click");
-            if (canGo === 1) {
-              dom.bind("click", function () {
-                sendAction("move", { direction: idx });
-              });
+            $("#position").text(`(${field.x},${field.y})`);
+            const x = field.x;
+            const y = field.y;
+            for (let i = 1; i <= 625; i++) {
+              $(`#box${i}`).removeClass("red");
+            }
+            $(`#box${25 * y + x + 1}`).addClass("red");
+            field.canGo.forEach((canGo, idx) => {
+              const dom = $(`button[value="${idx}"]`);
+              canGo === 0 ? dom.hide() : dom.show();
+              dom.unbind("click");
+              if (canGo === 1) {
+                dom.bind("click", function () {
+                  sendAction("move", { direction: idx });
+                });
+              }
+            });
+
+            if (event) {
+              $("#event_result").html(event.description);
+            } else {
+              $("#event_result").text("아무일도 일어나지 않았다.");
+            }
+
+            $("#player_status").text(
+              `레벨: ${player.level}, str: ${player.str}, def: ${player.def}, 아이템: ${player.items}, exp: ${player.exp} / ${player.maxExp}`
+            );
+            $("#HP").text(`${player.HP} / ${player.maxHP}`);
+
+            if (event.death === true) {
+              $("#goto_zero").html(
+                '<button onclick="(() => window.location.reload())()">평원으로!</button>'
+              );
+              $("#control").addClass("invisible");
+              $("#HP").text(`0 / ${player.maxHP}`);
             }
           });
-
-          if (event) {
-            $("#event_result").html(event.description);
-          } else {
-            $("#event_result").text("아무일도 일어나지 않았다.");
-          }
-
-          $("#player_status").text(
-            `레벨: ${player.level}, str: ${player.str}, def: ${player.def}, 아이템: ${player.items}, exp: ${player.exp} / ${player.maxExp}`
-          );
-          $("#HP").text(`${player.HP} / ${player.maxHP}`);
-
-          if (event.death === true) {
-            $("#goto_zero").html(
-              '<button onclick="(() => window.location.reload())()">평원으로!</button>'
-            );
-            $("#control").addClass("invisible");
-            $("#HP").text(`0 / ${player.maxHP}`);
-          }
-        });
+        } catch (error) {
+          //console.log(JSON.strigify(error));
+        }
       };
       const key = localStorage.getItem("_key");
       if (!key) {

@@ -65,14 +65,17 @@ app.post('/signup', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.error(errors);
-      res.status(400).send(errors);
+      const error = new Error('4자 이상 12자 이하의 이름만 입력됩니다');
+      error.status = 400;
+      return next(error);
     }
 
     const {name} = req.body;
 
     if (await Player.exists({name})) {
-      return res.status(400).send({error: 'Player already exists'});
+      const error = new Error('이미 있는 이름입니다');
+      error.status = 400;
+      return next(error);
     }
 
     const player = new Player({
@@ -212,11 +215,13 @@ app.post('/action', authentication, async (req, res, next) => {
 // 에러처리반
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  const {message, status} = err;
+  // console.log(err);
+  console.log(err.message);
+  res.send({status: err.status || 500, message: err.message});
   // err에 status를 따로 안먹였으면 500
-  res.status(err.status || 500).send({
-    error: {message, status: status || 500},
-  });
+  // res.status(err.status || 500).send({
+  //   error: {message, status: status || 500},
+  // });
 });
 
 app.listen(app.get('port'), () => console.log(`listening on port: ${app.get('port')}`));

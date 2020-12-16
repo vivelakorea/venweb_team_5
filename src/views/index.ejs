@@ -23,15 +23,20 @@
        e.preventDefault();
        const action = $(this).attr('action');
        $.post(action, $(this).serialize(),(res) => {
-         if(res.key) {
+         if(res.message) {
+           alert(JSON.stringify(res));
+         }
+         else if(res.key) {
           localStorage.setItem('_key', res.key);
           location.href = '/game';
          }
-         else {
-          alert("에러가 발생했습니다. 다시 시도해주세요.");
-         }
+        //  else {
+        //   alert("에러가 발생했습니다. 다시 시도해주세요.");
+        //  }
        });
      });
+
+     
     </script>
   </body>
 </html>
