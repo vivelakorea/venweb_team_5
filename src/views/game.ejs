@@ -739,7 +739,7 @@
             );
             $("#HP").text(`${player.HP} / ${player.maxHP}`);
 
-            if (event.death === true) {
+            if (event && event.death === true) {
               $("#goto_zero").html(
                 '<button onclick="(() => window.location.reload())()">평원으로!</button>'
               );
